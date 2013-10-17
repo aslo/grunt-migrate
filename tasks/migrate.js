@@ -13,7 +13,8 @@ module.exports = function(grunt) {
     var _ = grunt.util._,
         methods = [],
         options = null,
-        migrateBinPath = null;
+        migrateBinPath = null,
+        flags = {};
 
 
     /**
@@ -23,7 +24,15 @@ module.exports = function(grunt) {
     function run(cmd){
 
         var proc = require('child_process'),
-            done = grunt.task.current.async(); // Tells Grunt that an async task is complete
+            done = grunt.task.current.async(), // Tells Grunt that an async task is complete
+            flagStr = '';
+
+        // Add flags
+        for(var key in flags){
+          flagStr += ' ' + key + ' ' + flags[key]
+        }
+
+        cmd += ' ' + flagStr;
 
         proc.exec(cmd,
             function(error, stdout, stderr){
@@ -75,10 +84,12 @@ module.exports = function(grunt) {
 
         options = this.options({
             directory : "./migrate",
-            binaryPath : "./migrate"
+            binaryPath : "./migrate",
+            flags: {}
         });
 
         migrateBinPath = options.binaryPath;
+        flags = options.flags;
 
         methods.up = up;
         methods.down = down;
