@@ -1,3 +1,21 @@
+## isocket Additions
+
+* Added support for `flags` option to pass shell flags directly to the underlying binary
+
+        migrate:
+          options:
+            directory: 'migrations'
+            binaryPath: 'node_modules/.bin/migrate'
+            flags:
+              '-c': 'dist'
+              '--conf': '../../../server/conf.coffee'
+          up:     {} 
+          down:   {} 
+          create:
+            options:
+              flags:
+                '-c': '.'
+
 # GRUNT-MIGRATE
 
 There are a few handy small migration modules running around on npm. This module will let you interface with them using
